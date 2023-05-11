@@ -18,12 +18,12 @@ class TTT {
     Screen.setGridlines(true);
 
     // Commands
-    Screen.addCommand('u', 'move up', this.cursor.up.bind(this.cursor));
-    Screen.addCommand('d', 'move down', this.cursor.down.bind(this.cursor));
-    Screen.addCommand('l', 'move left', this.cursor.left.bind(this.cursor));
-    Screen.addCommand('r', 'move right', this.cursor.right.bind(this.cursor));
-    Screen.addCommand('o', 'player one symbol', this.placeAMove.bind(this, 'O'));
-    Screen.addCommand('x', 'player two symbol', this.placeAMove.bind(this, 'X'));
+    Screen.addCommand('w', 'move up', this.cursor.up.bind(this.cursor));
+    Screen.addCommand('s', 'move down', this.cursor.down.bind(this.cursor));
+    Screen.addCommand('a', 'move left', this.cursor.left.bind(this.cursor));
+    Screen.addCommand('d', 'move right', this.cursor.right.bind(this.cursor));
+    Screen.addCommand('o', 'player one plays', this.placeAMove.bind(this, 'O'));
+    Screen.addCommand('x', 'player two plays', this.placeAMove.bind(this, 'X'));
 
 
     this.cursor.setBackgroundColor();
@@ -35,6 +35,7 @@ class TTT {
   }
 
   placeAMove(string) {
+    let winner;
     //Has this square been played already?
     if ((string === 'X' || string ==='O') && this.grid[this.cursor.row][this.cursor.col] === ' ') {
       if (string === 'X') {
@@ -42,36 +43,54 @@ class TTT {
           Screen.setGrid(this.cursor.row, this.cursor.col, 'X');
           Screen.render();
           this.grid[this.cursor.row][this.cursor.col] = 'X';
-          this.playerTurn = 'O';
-          console.log(`It's now player ${this.playerTurn}'s turn!`);
-          Screen.printCommands();
-          return;
+          //Check winner?
+          winner = TTT.checkWin(this.grid);
+          //If no winner;
+          if (!winner) {
+            this.playerTurn = 'O';
+            this.whoseTurnIsIt();
+            return;
+          } else {
+            TTT.endGame(winner);
+          }
         } else {
-          console.log(`Wait for player ${this.playerTurn}'s turn!`);
-          Screen.printCommands();
-          return;
+          this.notYourTurn();
         }
       } else if (string === 'O') {
         if (this.playerTurn === 'O') {
           Screen.setGrid(this.cursor.row, this.cursor.col, 'O');
           Screen.render();
           this.grid[this.cursor.row][this.cursor.col] = 'O';
-          this.playerTurn = 'X';
-          console.log(`It's now player ${this.playerTurn}'s turn!`);
-          Screen.printCommands();
-          return;
+          //Check winner?
+          winner = TTT.checkWin(this.grid);
+          //If no winner;
+          if (!winner) {
+            this.playerTurn = 'X';
+            this.whoseTurnIsIt();
+            return;
+          } else {
+            TTT.endGame(winner);
+          }
         } else {
-          console.log(`Wait for player ${this.playerTurn}'s turn!`);
-          Screen.printCommands();
-          return;
+          this.notYourTurn();
         }
       }
     } else {
       console.log (`This grid has been already played!`);
-      console.log(`It's now player ${this.playerTurn}'s turn!`);
-      Screen.printCommands();
-      return;
+      this.whoseTurnIsIt();
     }
+  }
+
+  whoseTurnIsIt() {
+    console.log(`It's now player ${this.playerTurn}'s turn!`);
+    Screen.printCommands();
+    return;
+  }
+
+  notYourTurn() {
+    console.log(`Wait for player ${this.playerTurn}'s turn!`);
+    Screen.printCommands();
+    return;
   }
 
   static checkWin(grid) {
@@ -250,7 +269,6 @@ class TTT {
     Screen.render();
     Screen.quit();
   }
-
 }
 
 module.exports = TTT;

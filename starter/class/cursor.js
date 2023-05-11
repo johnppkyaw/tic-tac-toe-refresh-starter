@@ -32,7 +32,6 @@ class Cursor {
     } else {
       console.log(`Can't go up further!`);
     }
-    console.log(this.row, this.col);
     Screen.printCommands();
   }
 
@@ -47,7 +46,6 @@ class Cursor {
     } else {
       console.log(`Can't go down further!`);
     }
-    console.log(this.row, this.col);
     Screen.printCommands();
   }
 
@@ -60,7 +58,6 @@ class Cursor {
     } else {
       console.log(`Can't go left further!`);
     }
-    console.log(this.row, this.col);
     Screen.printCommands();
   }
 
@@ -73,7 +70,6 @@ class Cursor {
     } else {
       console.log(`Can't go right further!`);
     }
-    console.log(this.row, this.col);
     Screen.printCommands();
   }
 }
