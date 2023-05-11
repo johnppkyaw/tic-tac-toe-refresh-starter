@@ -12,7 +12,6 @@ class Cursor {
 
     this.gridColor = 'black';
     this.cursorColor = 'yellow';
-
   }
 
   resetBackgroundColor() {
@@ -26,29 +25,57 @@ class Cursor {
   up() {
     //if at row 0 = most top, can't move up further;
     if (this.row !== 0) {
+      this.resetBackgroundColor();
       this.row--;
+      this.setBackgroundColor();
+      Screen.render();
+    } else {
+      console.log(`Can't go up further!`);
     }
+    console.log(this.row, this.col);
+    Screen.printCommands();
   }
 
   down() {
     //can't go down further if at the last row.
     //first row starts at 0, last row will be numRows - 1;
     if (this.row < this.numRows - 1) {
+      this.resetBackgroundColor();
       this.row++;
+      this.setBackgroundColor();
+      Screen.render();
+    } else {
+      console.log(`Can't go down further!`);
     }
+    console.log(this.row, this.col);
+    Screen.printCommands();
   }
 
   left() {
     if (this.col !== 0) {
+      this.resetBackgroundColor();
       this.col--;
+      this.setBackgroundColor();
+      Screen.render();
+    } else {
+      console.log(`Can't go left further!`);
     }
+    console.log(this.row, this.col);
+    Screen.printCommands();
   }
 
   right() {
     if (this.col < this.numCols - 1) {
+      this.resetBackgroundColor();
       this.col++;
+      this.setBackgroundColor();
+      Screen.render();
+    } else {
+      console.log(`Can't go right further!`);
     }
-}
+    console.log(this.row, this.col);
+    Screen.printCommands();
+  }
 }
 
 

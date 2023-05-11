@@ -17,15 +17,61 @@ class TTT {
     Screen.initialize(3, 3);
     Screen.setGridlines(true);
 
-    // Replace this with real commands
-    Screen.addCommand('t', 'test command (remove)', TTT.testCommand);
+    // Commands
+    Screen.addCommand('u', 'move up', this.cursor.up.bind(this.cursor));
+    Screen.addCommand('d', 'move down', this.cursor.down.bind(this.cursor));
+    Screen.addCommand('l', 'move left', this.cursor.left.bind(this.cursor));
+    Screen.addCommand('r', 'move right', this.cursor.right.bind(this.cursor));
+    Screen.addCommand('o', 'player one symbol', this.placeAMove.bind(this, 'O'));
+    Screen.addCommand('x', 'player two symbol', this.placeAMove.bind(this, 'X'));
 
+
+    this.cursor.setBackgroundColor();
     Screen.render();
+    console.log('Welcome to Tic-Tac-Toe game!');
+    console.log(`It's now player ${this.playerTurn}'s turn!`);
+    Screen.printCommands();
+
   }
 
-  // Remove this
-  static testCommand() {
-    console.log("TEST COMMAND");
+  placeAMove(string) {
+    //Has this square been played already?
+    if ((string === 'X' || string ==='O') && this.grid[this.cursor.row][this.cursor.col] === ' ') {
+      if (string === 'X') {
+        if (this.playerTurn === 'X') {
+          Screen.setGrid(this.cursor.row, this.cursor.col, 'X');
+          Screen.render();
+          this.grid[this.cursor.row][this.cursor.col] = 'X';
+          this.playerTurn = 'O';
+          console.log(`It's now player ${this.playerTurn}'s turn!`);
+          Screen.printCommands();
+          return;
+        } else {
+          console.log(`Wait for player ${this.playerTurn}'s turn!`);
+          Screen.printCommands();
+          return;
+        }
+      } else if (string === 'O') {
+        if (this.playerTurn === 'O') {
+          Screen.setGrid(this.cursor.row, this.cursor.col, 'O');
+          Screen.render();
+          this.grid[this.cursor.row][this.cursor.col] = 'O';
+          this.playerTurn = 'X';
+          console.log(`It's now player ${this.playerTurn}'s turn!`);
+          Screen.printCommands();
+          return;
+        } else {
+          console.log(`Wait for player ${this.playerTurn}'s turn!`);
+          Screen.printCommands();
+          return;
+        }
+      }
+    } else {
+      console.log (`This grid has been already played!`);
+      console.log(`It's now player ${this.playerTurn}'s turn!`);
+      Screen.printCommands();
+      return;
+    }
   }
 
   static checkWin(grid) {
