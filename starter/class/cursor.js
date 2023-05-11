@@ -23,8 +23,6 @@ class Cursor {
     Screen.setBackgroundColor(this.row, this.col, this.cursorColor);
   }
 
-
-
   up() {
     //if at row 0 = most top, can't move up further;
     if (this.row !== 0) {
